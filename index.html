@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Group Stage</title>
+    <style>
+      table
+      {
+          border-collapse: collapse;
+      }
+      th, td
+      {
+          border: 1px solid;
+      }
+    </style>
+    <script>
+      const NAMES = ["Team A", "Team B", "Team C", "Team D"];
+      const N = NAMES.length;
+      const HEADERS = ["W", "D", "L", "GF", "GA", "GD", "P", "R"];
+      const SET = 3;
+      var table = document.createElement("TABLE");
+      var tr = document.createElement("TR");
+      var th = document.createElement("TH");
+      var td = [{}];
+    </script>
+  </head>
+  <body>
+    <script>
+      var k = 0;
+      var header = "";
+      var left = 0;
+      var middle = 0;
+      var right = 0;
+      th.innerText = "Group";
+      tr.appendChild(th);
+      for (th = {}; k < N; k++)
+      {
+          th[k] = document.createElement("TH");
+          th[k].colSpan = SET;
+          th[k].innerText = NAMES[k];
+          tr.appendChild(th[k]);
+      }
+      for (header of HEADERS)
+      {
+          th[header] = document.createElement("TH");
+          th[header].innerText = header;
+          tr.appendChild(th[header]);
+      }
+      table.appendChild(tr);
+      for (let i = 0; i < N; i++)
+      {
+          tr = document.createElement("TR");
+          td[i] = document.createElement("TD");
+          td[i].innerText = NAMES[i];
+          td[i].contentEditable = true;
+          td[i].oninput = function()
+          {
+              th[i].innerText = this.innerText;
+          };
+          tr.appendChild(td[i]);
+          td[i] = {};
+          for (let j = 0; j < N; j++)
+          {
+              k = j * SET;
+              if (i === j)
+              {
+                  td[i][k] = document.createElement("TD");
+                  td[i][k].colSpan = SET;
+                  td[i][k].style.backgroundColor = "gray";
+                  tr.appendChild(td[i][k]);
+              }
+              else
+              {
+                  if (i < j)
+                  {
+                      left = k - 2;
+                      middle = k - 1;
+                      right = k;
+                      td[i][left] = document.createElement("TD");
+                      td[i][right] = document.createElement("TD");
+                  }
+                  else
+                  {
+                      left = k;
+                      middle = k + 1;
+                      right = k + 2;
+                      td[i][left] = document.createElement("TD");
+                      td[i][left].contentEditable = true;
+                      td[i][right] = document.createElement("TD");
+                      td[i][right].contentEditable = true;
+                  }
+                  td[i][left].style.borderRight = "none";
+                  td[i][left].style.textAlign = "right";
+                  tr.appendChild(td[i][left]);
+                  td[i][middle] = document.createElement("TD");
+                  td[i][middle].style.width = "1em";
+                  td[i][middle].style.borderLeft = "none";
+                  td[i][middle].style.borderRight = "none";
+                  td[i][middle].style.textAlign = "center";
+                  td[i][middle].innerText = ":";
+                  tr.appendChild(td[i][middle]);
+                  td[i][right].style.borderLeft = "none";
+                  td[i][right].style.textAlign = "left";
+                  tr.appendChild(td[i][right]);
+              }
+          }
+          for (header of HEADERS)
+          {
+              td[i][header] = document.createElement("TD");
+              td[i][header].style.textAlign = "center";
+              tr.appendChild(td[i][header]);
+          }
+          td[i].R.contentEditable = true;
+          table.appendChild(tr);
+      }
+      document.body.appendChild(table);
+    </script>
+  </body>
+</html>
