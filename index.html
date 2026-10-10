@@ -4,19 +4,20 @@
     <meta charset="UTF-8" />
     <title>Group Stage</title>
     <style>
-      table
-      {
-          border-collapse: collapse;
-      }
-      th, td
-      {
-          border: 1px solid;
-      }
+        table
+        {
+            border-collapse: collapse;
+        }
+        th, td
+        {
+            border: 1px solid;
+        }
     </style>
     <script>
       const NAMES = ["Team A", "Team B", "Team C", "Team D"];
       const N = NAMES.length;
-      const HEADERS = ["W", "D", "L", "GF", "GA", "GD", "P", "R"];
+        const FIELDS = ["W", "D", "L", "GF", "GA", "GD", "P"];
+        const HEADERS = FIELDS.concat("R");
       const SET = 3;
       const HOME = 0;
       const AWAY = 1;
@@ -36,11 +37,7 @@
           var away = 0;
           for (i = 0; i < N; i++)
           {
-              fields.W = 0;
-              fields.D = 0;
-              fields.L = 0;
-              fields.GF = 0;
-              fields.GA = 0;
+                for (field of FIELDS) fields[field] = 0;
               for (j = 0; j < N; j++)
                   if (i !== j && pattern.test(teams[i][j][HOME]) && pattern.test(teams[i][j][AWAY]))
                   {
@@ -54,7 +51,7 @@
                   }
               fields.GD = fields.GF - fields.GA;
               fields.P = fields.W * 3 + fields.D;
-              for (field in fields) teams[i][field].push(fields[field]);
+                for (field in fields) teams[i][field] = fields[field];
           }
       }
       function output(row, column, text)
@@ -62,7 +59,7 @@
           var i;
           var j;
           var k = 0;
-          var header = "";
+            var field = "";
           td[row][column].innerText = text;
           for (i = 0; i < N; i++)
           {
@@ -73,11 +70,13 @@
                   if (i < j) teams[i][j] = [td[i][k - 2].innerText, td[i][k].innerText];
                   else if (i > j) teams[i][j] = [td[i][k].innerText, td[i][k + 2].innerText];
               }
-              for (header of HEADERS) teams[i][header] = [];
           }
           calculate();
           for (i = 0; i < N; i++)
-              for (header of HEADERS) td[i][header].innerText = teams[i][header][0];
+            {
+                for (field of FIELDS) td[i][field].innerText = teams[i][field];
+                td[i].R.innerHTML = "<a href='a.out'>download</a>";
+            }
       }
     </script>
   </head>
@@ -175,17 +174,16 @@
               td[i][header].style.textAlign = "center";
               tr.appendChild(td[i][header]);
           }
-          td[i].R.contentEditable = true;
           table.appendChild(tr);
       }
       document.body.appendChild(table);
     </script>
     <ul>
-      <li>
-        click <a href="a.out">here</a> to rank teams!
-      </li>
-      <li>The executable file was compiled by GCC 16.2.1 20260810 in Linux.</li>
-      <li>R(ank) = 0 means ToBeDetermined.</li>
+      <li>Firstly try to input scores.</li>
+      <li>Download a file in R-Column to decide final rankings!</li>
+      <li>The above executable files were compiled by GCC in Linux.</li>
+      <li>R(ank) = 0 in the result means ToBeDetermined.</li>
+      <li>The algorithm of ranking teams can also be implemented in JavaScript, added to this web page.</li>
     </ul>
   </body>
 </html>
