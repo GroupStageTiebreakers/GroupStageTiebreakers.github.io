@@ -14,8 +14,8 @@
         }
     </style>
     <script>
-      const NAMES = ["Team A", "Team B", "Team C", "Team D"];
-      const N = NAMES.length;
+        const A = 65;
+        const N = 4;
         const FIELDS = ["W", "D", "L", "GF", "GA", "GD", "P"];
         const HEADERS = FIELDS.concat("R");
       const SET = 3;
@@ -75,7 +75,7 @@
           for (i = 0; i < N; i++)
             {
                 for (field of FIELDS) td[i][field].innerText = teams[i][field];
-                td[i].R.innerHTML = "<a href='a.out'>download</a>";
+                td[i].R.innerHTML = "<a href='eu.out'>download</a>";
             }
       }
     </script>
@@ -83,6 +83,7 @@
   <body>
     <script>
       var k = 0;
+        var names = [];
       var header = "";
       var left = 0;
       var middle = 0;
@@ -91,9 +92,10 @@
       tr.appendChild(th);
       for (th = {}; k < N; k++)
       {
+            names[k] = "Team " + String.fromCharCode(A + k);
           th[k] = document.createElement("TH");
           th[k].colSpan = SET;
-          th[k].innerText = NAMES[k];
+            th[k].innerText = names[k];
           tr.appendChild(th[k]);
       }
       for (header of HEADERS)
@@ -107,7 +109,7 @@
       {
           tr = document.createElement("TR");
           td[i] = document.createElement("TD");
-          td[i].innerText = NAMES[i];
+            td[i].innerText = names[i];
           td[i].contentEditable = true;
           td[i].oninput = function()
                           {
@@ -179,11 +181,11 @@
       document.body.appendChild(table);
     </script>
     <ul>
-      <li>Firstly try to input scores.</li>
+      <li>Try to input scores...</li>
       <li>Download a file in R-Column to decide final rankings!</li>
       <li>The above executable files were compiled by GCC in Linux.</li>
       <li>R(ank) = 0 in the result means ToBeDetermined.</li>
-      <li>The algorithm of ranking teams can also be implemented in JavaScript, added to this web page.</li>
+      <li>The algorithm of ranking teams may be implemented in JavaScript, added to this web page.</li>
     </ul>
   </body>
 </html>
